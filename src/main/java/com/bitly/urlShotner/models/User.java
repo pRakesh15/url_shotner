@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity  //use for define the class as an entity class that is store in the database.
-@Data   //using data annotation of loombook for avoiding geter and setters.
+@Data   //using data annotation of loombook for avoiding getters and setters.
 @Table(name = "users")  //make the table name ...
 public class User {
 
