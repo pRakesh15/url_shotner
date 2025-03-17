@@ -12,13 +12,20 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
+
+//as we know spring provide us own inbuilt implementation of UserDetails and this is a interface
+//we cant directly access the interface so we create a class  and implement the interface.
+//when user is load from the database by the help of UserDetailsServiceImpl the UserDetailsImpl class allow the spring security to authenticate the user,
+//and it stores the user authentication details like username password and role etc.
+//it internally  authenticates the user and role-base access control.
 @Data
 @NoArgsConstructor
 //@AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID=1L;  //this is use for serialization
 
+    //store the basic auth details.
     private Long id;
     private String username;
     private String email;
@@ -37,8 +44,11 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     //when we find a user and pass to the build method the user is store in spring security  bu this method.
+    //and understand by the spring security.
+
     public  static  UserDetailsImpl build(User user){
         GrantedAuthority authority=new SimpleGrantedAuthority(user.getRole());
+        ///it will return the authenticate user to serviceimple class
         return  new UserDetailsImpl(
                 user.getId(),
                 user.getUsername(),
@@ -47,6 +57,8 @@ public class UserDetailsImpl implements UserDetails {
                 Collections.singletonList(authority)
         );
     }
+
+    //NOTE---->when we will login with some credential Spring Security uses the UserDetailsImpl object to authenticate the user
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

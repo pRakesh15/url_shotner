@@ -27,6 +27,7 @@ public class JwtUtils {
 
 
     //create a method for create Token using UserDetails.
+    //it will use when we login a user.
     public String generateToken(UserDetailsImpl userDetails){
         String username=userDetails.getUsername();
         String roles=userDetails.getAuthorities().stream()
@@ -43,6 +44,7 @@ public class JwtUtils {
 
 
     // create a method for extracting the jwt token from the header.
+    //it will use when a authenticated enpoint is heat by the server with some headers
     public  String getJwtFromHeader(HttpServletRequest request){
         String brearerToken=request.getHeader("Authorization");
         //check if token is present or not if present then valid or not

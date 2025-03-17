@@ -18,6 +18,7 @@ import java.io.IOException;
 
 //this works like a middelware like check eatch request have the token
 //by this for every request there is a single execution happens.
+//if the req are authenticated. how the spring is know when to run this for that  we make some config in websecurity config.
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
@@ -39,9 +40,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
       //3-->find the user from the token
       String username=jwtUtils.getUsernameFromJwtToken(jwtToken);
       UserDetails userDetails=userDetailsService.loadUserByUsername(username); // we directly fetch the userDetails from spring security.
-      if(userDetails !=null){
+      if(userDetails !=null){  //this means the user is authenticated.
           UsernamePasswordAuthenticationToken authentication=new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
           authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+          //as we know at this point the user is authenticated so  we store the  authenticated user inside the spring security context.
           SecurityContextHolder.getContext().setAuthentication(authentication);
       }
   }

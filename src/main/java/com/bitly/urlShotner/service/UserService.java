@@ -3,7 +3,6 @@ package com.bitly.urlShotner.service;
 import com.bitly.urlShotner.models.User;
 import com.bitly.urlShotner.repositroy.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

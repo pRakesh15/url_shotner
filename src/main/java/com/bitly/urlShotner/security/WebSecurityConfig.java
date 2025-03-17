@@ -20,6 +20,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 @AllArgsConstructor //by this also we can inject the dependency
 //this  is known as constructor injection..
+// in this class we define the application security like what are the protected endpoint and what are free
+//like authenticate the api call.
 public class WebSecurityConfig {
 
 
@@ -33,7 +35,7 @@ public class WebSecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder(){
  return  new BCryptPasswordEncoder();
-    }
+    } //for encoding the password
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider(){
@@ -47,7 +49,7 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.csrf(AbstractHttpConfigurer::disable)
+        http.csrf(AbstractHttpConfigurer::disable)  //here we protect the application like what are the non authenticated endpoint and what are authenticated.
                 .authorizeHttpRequests(auth->auth
                         .requestMatchers("/auth/user/**").permitAll()
                         .requestMatchers("/{sortUrl}").permitAll()
@@ -55,6 +57,7 @@ public class WebSecurityConfig {
                         .anyRequest().authenticated()
                 );
         http.authenticationProvider(authenticationProvider());
+        //here we  mention  whne the jwt auth filter run or execute or check the header's jwt it valid or not.
   http.addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
   return http.build();
     }
