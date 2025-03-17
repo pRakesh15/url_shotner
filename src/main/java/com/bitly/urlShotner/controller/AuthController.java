@@ -1,5 +1,6 @@
 package com.bitly.urlShotner.controller;
 
+import com.bitly.urlShotner.dtos.LoginRequest;
 import com.bitly.urlShotner.dtos.RegisterRequest;
 import com.bitly.urlShotner.models.User;
 import com.bitly.urlShotner.service.UserService;
@@ -17,6 +18,7 @@ public class AuthController {
 
     private UserService userService;
 
+    //method for register user
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest){
         User user=new User();
@@ -28,5 +30,11 @@ public class AuthController {
         userService.registerUser(user);
 
         return ResponseEntity.ok("User created successfully");
+    }
+
+    //method for login User
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest){
+        return ResponseEntity.ok(userService.loginUser(loginRequest));
     }
 }
