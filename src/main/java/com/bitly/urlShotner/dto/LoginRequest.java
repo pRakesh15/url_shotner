@@ -1,4 +1,4 @@
-package com.bitly.urlShotner.dtos;
+package com.bitly.urlShotner.dto;
 
 import lombok.Data;
 

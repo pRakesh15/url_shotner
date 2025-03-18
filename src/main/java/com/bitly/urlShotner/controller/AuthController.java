@@ -1,7 +1,7 @@
 package com.bitly.urlShotner.controller;
 
-import com.bitly.urlShotner.dtos.LoginRequest;
-import com.bitly.urlShotner.dtos.RegisterRequest;
+import com.bitly.urlShotner.dto.LoginRequest;
+import com.bitly.urlShotner.dto.RegisterRequest;
 import com.bitly.urlShotner.models.User;
 import com.bitly.urlShotner.service.UserService;
 import lombok.AllArgsConstructor;

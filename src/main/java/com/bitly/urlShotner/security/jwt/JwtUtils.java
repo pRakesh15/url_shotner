@@ -22,7 +22,7 @@ public class JwtUtils {
     @Value("${jwt.secret}")
     private String jwtSecret;
 
-    @Value("${jwt.expTimeinMs}")
+    @Value("${jwt.expTimeMs}")
     private int jwtExpTimeinMs;
 
 
