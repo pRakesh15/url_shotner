@@ -11,4 +11,6 @@ import java.util.List;
 public interface UrlMappingRepositry extends JpaRepository<UrlMapping,Long> {
     UrlMapping findBySortUrl(String sortUrl);
     List<UrlMapping> findByUser(User user);
+
+
 }

@@ -97,4 +97,18 @@ public class UrlMappingService {
     return clickEventList.stream()
             .collect(Collectors.groupingBy(click->click.getClickDate().toLocalDate(),Collectors.counting()));
     }
+
+    public UrlMapping getOrirginalUrl(String sortUrl) {
+        UrlMapping bySortUrl = urlMappingRepositry.findBySortUrl(sortUrl);
+        if(bySortUrl!=null){
+            bySortUrl.setClickCount(bySortUrl.getClickCount()+1);
+            urlMappingRepositry.save(bySortUrl);
+            //have to record the clickevent
+            ClickEvent clickEvent=new ClickEvent();
+            clickEvent.setClickDate(LocalDateTime.now());
+            clickEvent.setUrlMapping(bySortUrl);
+            clickEventReppositry.save(clickEvent);
+        }
+        return bySortUrl;
+    }
 }
