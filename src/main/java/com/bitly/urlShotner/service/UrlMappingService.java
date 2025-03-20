@@ -1,20 +1,30 @@
 package com.bitly.urlShotner.service;
 
+import com.bitly.urlShotner.dto.ClickEventDto;
 import com.bitly.urlShotner.dto.UrlMappingDto;
+import com.bitly.urlShotner.models.ClickEvent;
 import com.bitly.urlShotner.models.UrlMapping;
 import com.bitly.urlShotner.models.User;
+import com.bitly.urlShotner.repositroy.ClickEventReppositry;
 import com.bitly.urlShotner.repositroy.UrlMappingRepositry;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class UrlMappingService {
 
     private UrlMappingRepositry urlMappingRepositry;
+
+    private ClickEventReppositry clickEventReppositry;
     public UrlMappingDto createSortUrl(String originalUrl, User user){
 
         String sortUrl=generateSortUrl();
@@ -52,5 +62,39 @@ public class UrlMappingService {
         urlMappingDto.setUsername(urlMapping.getUser().getUsername());
 
         return  urlMappingDto;
+    }
+
+
+    //create  a methos for find url of a user
+    public List<UrlMappingDto> getUrlsOfUser(User user) {
+       return  urlMappingRepositry.findByUser(user).stream()
+               .map(this::convertUrlMapping)
+               .toList();
+
+    }
+
+
+    public List<ClickEventDto> getClickEventsByDate(String sortUrl, LocalDateTime start, LocalDateTime end) {
+        UrlMapping bySortUrl = urlMappingRepositry.findBySortUrl(sortUrl);
+        if(bySortUrl!=null){
+              return  clickEventReppositry.findByUrlMappingAndClickDateBetween(bySortUrl,start,end).stream()
+                      .collect(Collectors.groupingBy(click->click.getClickDate().toLocalDate(),Collectors.counting()))
+                      .entrySet().stream()
+                      .map(entry->{
+     ClickEventDto clickEventDto=new ClickEventDto();
+     clickEventDto.setClickDate(entry.getKey());
+     clickEventDto.setCount(entry.getValue());
+     return clickEventDto;
+                      })
+                      .collect(Collectors.toList());
+        }
+        return Collections.emptyList();
+    }
+
+    public Map<LocalDate, Long> getAllClickEventOfUser(User user, LocalDate start, LocalDate end) {
+        List<UrlMapping> urlMappings=urlMappingRepositry.findByUser(user);
+        List<ClickEvent> clickEventList=clickEventReppositry.findByUrlMappingInAndClickDateBetween(urlMappings,start.atStartOfDay(),end.plusDays(1).atStartOfDay());
+    return clickEventList.stream()
+            .collect(Collectors.groupingBy(click->click.getClickDate().toLocalDate(),Collectors.counting()));
     }
 }
