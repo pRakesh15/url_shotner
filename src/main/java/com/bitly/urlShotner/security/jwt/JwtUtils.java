@@ -56,16 +56,21 @@ public class JwtUtils {
 
     //create a method for validate the toke like the given token is validate or not.
     public boolean validateToken(String authToken){
-        try {
-            Jwts.parser()
-                    .verifyWith((SecretKey) key())
-                    .build().parseSignedClaims(authToken);
-            return true;
-        } catch (JwtException e){
-            throw  new RuntimeException(e);
-        } catch (Exception e){
-            throw  new RuntimeException(e);
+//        System.out.println(authToken);
+        if(authToken!=null){
+            try {
+                Jwts.parser()
+                        .verifyWith((SecretKey) key())
+                        .build().parseSignedClaims(authToken);
+                return true;
+            } catch (JwtException e){
+                throw  new RuntimeException(e);
+            } catch (Exception e){
+                throw  new RuntimeException(e);
+            }
         }
+        return false;
+
     }
 
 

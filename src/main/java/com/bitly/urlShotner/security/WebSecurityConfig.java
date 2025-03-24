@@ -58,14 +58,17 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.csrf(AbstractHttpConfigurer::disable)  //here we protect the application like what are the non authenticated endpoint and what are authenticated.
                 .authorizeHttpRequests(auth->auth
-                        .requestMatchers("/auth/user/**").permitAll()
+                        //problem in this side....
+                        .requestMatchers("/auth/user/register").permitAll()
+                        .requestMatchers("/auth/user/login").permitAll()
                         .requestMatchers("/{sortUrl}").permitAll()
-                        .requestMatchers("/urls/**").authenticated()
                         .anyRequest().authenticated()
                 );
         http.authenticationProvider(authenticationProvider());
-        //here we  mention  whne the jwt auth filter run or execute or check the header's jwt it valid or not.
-  http.addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
+        //here we  mention  when the jwt auth filter run or execute or check the header's jwt it valid or not.
+
+//        i think there are some problem in this line or
+  http.addFilterBefore(jwtAuthFilter(),UsernamePasswordAuthenticationFilter.class);
   return http.build();
     }
 

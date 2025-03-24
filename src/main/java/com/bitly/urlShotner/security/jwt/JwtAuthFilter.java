@@ -29,6 +29,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private UserDetailsService userDetailsService;
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        return path.startsWith("/auth/user/register") || path.startsWith("/auth/user/login");
+    }
+
+    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             //there is a flow how to ckeck the token is valid or not
@@ -48,7 +54,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
       }
   }
         }catch (Exception e){
-e.printStackTrace();
+            e.printStackTrace();
         }
         filterChain.doFilter(request,response);//it works like a next function work in node js
     }
