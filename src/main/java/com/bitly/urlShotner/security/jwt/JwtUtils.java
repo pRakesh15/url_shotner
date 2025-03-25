@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 
 @Component
+@Slf4j
 public class JwtUtils {
 
     @Value("${jwt.secret}")
@@ -51,12 +53,11 @@ public class JwtUtils {
         if(brearerToken != null && brearerToken.startsWith("Bearer ")){
             return brearerToken.substring(7);
         }
-        return "No token found";
+        return "No token found in the header";
     }
 
     //create a method for validate the toke like the given token is validate or not.
     public boolean validateToken(String authToken){
-//        System.out.println(authToken);
         if(authToken!=null){
             try {
                 Jwts.parser()

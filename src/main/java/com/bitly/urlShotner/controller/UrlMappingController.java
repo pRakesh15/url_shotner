@@ -64,6 +64,7 @@ public class UrlMappingController {
     public ResponseEntity<Map<LocalDate,Long>> getSortUrlCount(Principal principal
                                                                    , @RequestParam("startDate") String startDate
                                                                    , @RequestParam("endDate") String endDate ){
+
         User user=userService.findByUserName(principal.getName());
 
         DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ISO_LOCAL_DATE;

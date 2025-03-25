@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +21,7 @@ import java.io.IOException;
 //by this for every request there is a single execution happens.
 //if the req are authenticated. how the spring is know when to run this for that  we make some config in websecurity config.
 @Component
+@Slf4j
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -54,6 +56,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
       }
   }
         }catch (Exception e){
+            log.error("no valid token found while filter");
             e.printStackTrace();
         }
         filterChain.doFilter(request,response);//it works like a next function work in node js
