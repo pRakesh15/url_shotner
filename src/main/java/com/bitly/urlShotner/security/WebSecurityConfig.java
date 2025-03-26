@@ -60,7 +60,7 @@ public class WebSecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)  //here we protect the application like what are the non authenticated endpoint and what are authenticated.
                 .authorizeHttpRequests(auth->auth
                         //problem in this side....
-//                        .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .requestMatchers("/auth/user/register").permitAll()
                         .requestMatchers("/auth/user/login").permitAll()
                         .requestMatchers("/{sortUrl}").permitAll()
